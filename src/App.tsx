@@ -32,7 +32,7 @@ export const App = () => (
             Learn Chakra
           </Link>
           <Text>
-            Hello World??ddbhbrgbrdefgb
+            Hello World??ddbhbrgbrdefgbjhbkjbkっっｇ」b
           </Text>
         </VStack>
       </Grid>
