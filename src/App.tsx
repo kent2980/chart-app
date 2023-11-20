@@ -1,19 +1,18 @@
 import * as React from "react"
 import {
-  ChakraProvider,
   Box,
   Text,
   Link,
   VStack,
   Code,
   Grid,
-  theme,
 } from "@chakra-ui/react"
 import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import { Logo } from "./Logo"
+import AppContainer from "./containers/app_container"
 
 export const App = () => (
-  <ChakraProvider theme={theme}>
+  <AppContainer>
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={3}>
         <ColorModeSwitcher justifySelf="flex-end" />
@@ -31,8 +30,10 @@ export const App = () => (
           >
             Learn Chakra
           </Link>
+          <Text>
+            kakaka
+          </Text>
         </VStack>
       </Grid>
     </Box>
-  </ChakraProvider>
-)
+  </AppContainer>)
