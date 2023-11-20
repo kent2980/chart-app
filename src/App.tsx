@@ -31,9 +31,6 @@ export const App = () => (
           >
             Learn Chakra
           </Link>
-          <Text>
-            Hello World??ddbhbrgbrdefgbjhbあああkjbkっっｇ」b
-          </Text>
         </VStack>
       </Grid>
     </Box>
