@@ -1,9 +1,9 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { brandsApi } from '../services/fsstockApiServies';
+import { brandsApi } from '../services/FsstockApiServies';
 import { useLocation } from "react-router-dom";
 
-const StockReport = () => {
+const StockInfo = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get("code");
@@ -42,4 +42,4 @@ const StockReport = () => {
     );
 };
 
-export default StockReport;
+export default StockInfo;
