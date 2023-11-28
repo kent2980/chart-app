@@ -1,35 +1,60 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { StockChartDataApi } from "../services/FsstockApiServies";
 
 type Props = {
     children: React.ReactNode;
 };
 
 // データの型を定義
-type Data = {
+/** @implements SC */
+type StockChartData = {
     // データの型に合わせてプロパティを定義
+    /** ID */
     id: number;
-    name: string;
-    // 他のデータプロパティ
+    /** 日付 */
+    date: Date;
+    /** 銘柄コード */
+    code: string;
+    /**始値 */
+    open: number;
+    /**高値 */
+    high: number;
+    /**安値 */
+    low: number;
+    /**終値 */
+    close: number;
+    /**調整後終値 */
+    adj_close: number;
+    /** 出来高情報 */
+    volume: number;
 };
 
 // コンテキストを作成
-const DataContext = createContext<Data[]>([]);
+const StockChartDataContext = createContext<StockChartData[]>([]);
 
 // プロバイダーとコンシューマーのカスタムフックを作成
-export const useData = () => useContext(DataContext);
+export const useData = () => useContext(StockChartDataContext);
 
 // データを取得して提供する親コンポーネント
-export const DataProvider: React.FC<Props> = ({ children }) => {
-    const [data, setData] = useState<Data[]>([]);
+export const StockChartDataProvider: React.FC<Props> = ({ children }) => {
+    const [params, setParams] = useState<any>(null);
+    const [data, setData] = useState<StockChartData[]>([]);
 
     useEffect(() => {
-        // APIなどからデータを取得する処理
-        // 例: fetchやaxiosを使用してデータを取得し、setDataで状態更新
-    }, []);
+        if (params) {
+            // APIなどからデータを取得する処理
+            // 例: fetchやaxiosを使用してデータを取得し、setDataで状態更新
+            StockChartDataApi.fetchData(params)
+                .then(item => {
+                    setData(item);
+                })
+                .catch(er => console.log(er));
+        }
+    }, [params]);
 
     return (
-        <DataContext.Provider value={data}>
+        <StockChartDataContext.Provider value={data}>
             {children}
-        </DataContext.Provider>
+        </StockChartDataContext.Provider>
     );
 };

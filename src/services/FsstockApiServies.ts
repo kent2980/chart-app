@@ -86,7 +86,7 @@ export const brandsApi = {
  * @param params - クエリパラメータのオブジェクト
  * @returns result APIのレスポンスのデータ
  */
-export const resultApi = {
+export const StockChartDataApi = {
     /**
      * fetchDataメソッド
      * @param params - クエリパラメータのオブジェクト
