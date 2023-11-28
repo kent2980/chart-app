@@ -6,7 +6,6 @@ type Props = {
 };
 
 // データの型を定義
-/** @implements SC */
 type StockChartData = {
     // データの型に合わせてプロパティを定義
     /** ID */
@@ -40,20 +39,25 @@ export const StockChartDataProvider: React.FC<Props> = ({ children }) => {
     const [params, setParams] = useState<any>(null);
     const [data, setData] = useState<StockChartData[]>([]);
 
+    const updateParams = (newParams: any) => {
+        setParams(newParams);
+    };
+
     useEffect(() => {
         if (params) {
             // APIなどからデータを取得する処理
             // 例: fetchやaxiosを使用してデータを取得し、setDataで状態更新
             StockChartDataApi.fetchData(params)
-                .then(item => {
-                    setData(item);
+                .then(response => {
+                    setData(response.data);
                 })
-                .catch(er => console.log(er));
+                .catch(error => console.log(error));
         }
     }, [params]);
 
     return (
-        <StockChartDataContext.Provider value={data}>
+        <StockChartDataContext.Provider value={ data }>
+            {/* updateParams 関数を子コンポーネントに渡す */}
             {children}
         </StockChartDataContext.Provider>
     );
