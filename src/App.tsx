@@ -1,43 +1,35 @@
-import React, { useContext, useEffect } from 'react';
-import {
-  Box,
-  VStack,
-  Grid,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import AppContainer from "./containers/AppContainer"
-import { BrowserRouter } from "react-router-dom";
-import { DataContext } from "./context/ApiDataContext";
+import React, { useContext, useState } from 'react';
+import { DataContext } from './context/ApiDataContext'; // このパスは実際のファイルの場所に合わせて修正してください
 
-export const App = () => {
-  const contextValue = useContext(DataContext);
-  console.log(contextValue);
-  if (!contextValue) {
-    return <div>Error: Context value is undefined</div>
-  }
+export const App: React.FC = () => {
+  const { code, setCode, data } = useContext(DataContext);
+  const [inputCode, setInputCode] = useState('');
 
-  const { data, setQueryParams } = contextValue;
-
-  useEffect(() => {
-    if (data) {
-      const params = {
-        code: "4980"
-      };
-      setQueryParams(params);
+  const handleSearch = () => {
+    if (inputCode) {
+      const queryParams: string = inputCode;
+      setCode(queryParams);
+      console.log(code);
     }
-  }, []);
+  };
 
   return (
-    <BrowserRouter>
-      <AppContainer>
-        <Box textAlign="center" fontSize="xl">
-          <Grid minH="100vh" p={3}>
-            <ColorModeSwitcher justifySelf="flex-end" />
-            <VStack spacing={8}>
-            </VStack>
-          </Grid>
-        </Box>
-      </AppContainer>
-    </BrowserRouter>
-  )
-}
+    <div>
+      <input type="text" value={inputCode} onChange={(e) => setInputCode(e.target.value)} />
+      <button onClick={handleSearch}>検索</button>
+      {data && data.length > 0 && (
+        <div>
+          {/* Render content based on the existence of 'data' */}
+          {/* Add your conditional content here */}
+          {data.map((item, index) => (
+            <div key={index}>
+              {item.date} / 
+              {item.close}
+              {/* Display other properties of 'item' here as needed */}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};

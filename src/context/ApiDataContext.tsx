@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, FC } from 'react';
+import React, { createContext, useState, useEffect, FC, useCallback } from 'react';
 import { StockChartDataApi } from "../services/FsstockApiServies";
 
 type Props = {
@@ -30,40 +30,50 @@ interface DataItem {    // データの型に合わせてプロパティを定�
 // DataContextのプロパティの型定義
 interface DataContextProps {
     data: DataItem[];
-    setQueryParams: React.Dispatch<React.SetStateAction<{}>>;
+    setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+    code: string;
+    setCode: React.Dispatch<React.SetStateAction<string>>;
 }
-
+const initialData: DataContextProps = {
+    data: [],
+    setData: () => {}, // Provide your initial state or logic here
+    code: '',
+    setCode: () => '', // Provide your initial state or logic here
+};
 // DataContextの作成
-export const DataContext = createContext<DataContextProps | undefined>(undefined);
+export const DataContext = createContext<DataContextProps>(initialData);
 
 // データを提供するDataProviderコンポーネント
 export const DataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
-    const [queryParams, setQueryParams] = useState<{}>({});
+    const [code, setCode] = useState<string>("");
 
-    function FetchData(params: any) {
-        if (params) {
-            console.log(params);
+    const FetchData= useCallback((code: string) => {
+        if (code !== "") {
+            const params = {
+                code: code,
+            }
+            console.log(code);
             StockChartDataApi.fetchData(params)
                 .then(response => {
-                    setData(response);
-                    console.log(response);
+                    const dataSet: DataItem[] = response;
+                    setData(dataSet);
+                    console.log(dataSet);
                     console.log(data);
                 })
                 .catch(error => console.log(error));
         }
-    }
+    },[data]);
 
-    useEffect(() => {
-        if (queryParams) {
-            FetchData(queryParams)
-        }
-    }, [queryParams]);
+    useEffect(()=>{
+        FetchData(code);
+    },[code, FetchData])
 
     // DataContextの値として提供するコンテキスト値
-    const contextValue: DataContextProps = { data, setQueryParams };
+    const contextValue: DataContextProps = { data, setData, code, setCode };
 
     // コンテキストプロバイダーを使って子コンポーネントにコンテキストを提供
     return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
 };
+
