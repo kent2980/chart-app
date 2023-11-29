@@ -81,6 +81,9 @@ export const brandsApi = {
     },
 };
 
+export type StockChartParams = {
+    code: string;
+}
 /**
  * result APIを呼び出す関数
  * @param params - クエリパラメータのオブジェクト
@@ -92,7 +95,7 @@ export const StockChartDataApi = {
      * @param params - クエリパラメータのオブジェクト
      * @returns result APIのレスポンスのデータ
      */
-    fetchData: async (params: Record<string, any>): Promise<any> => {
+    fetchData: async (params: StockChartParams): Promise<any> => {
         return await callApi('result', params);
     },
 };
