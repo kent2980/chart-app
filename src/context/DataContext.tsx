@@ -1,60 +1,70 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, FC, useCallback } from 'react';
 import { StockChartDataApi } from "../services/FsstockApiServies";
 
 type Props = {
     children: React.ReactNode;
 };
 
-// データの型を定義
-type StockChartData = {
-    // データの型に合わせてプロパティを定義
+// APIから取得するデータの型定義
+interface DataItem {
     /** ID */
     id: number;
-    /** 日付 */
-    date: Date;
-    /** 銘柄コード */
+    // 新しいAPIに応じて可能性がある追加プロパティ・フィールド
+    // newField1: string;
+    // newField2: number;
+    // ...
+}
+
+// DataContextのプロパティの型定義
+interface DataContextProps {
+    data: DataItem[];
+    setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
     code: string;
-    /**始値 */
-    open: number;
-    /**高値 */
-    high: number;
-    /**安値 */
-    low: number;
-    /**終値 */
-    close: number;
-    /**調整後終値 */
-    adj_close: number;
-    /** 出来高情報 */
-    volume: number;
+    setCode: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const initialData: DataContextProps = {
+    data: [],
+    setData: () => { },
+    code: '',
+    setCode: () => '',
 };
 
-// コンテキストを作成
-const StockChartDataContext = createContext<any[]>([]);
+// DataContextの作成
+export const DataContext = createContext<DataContextProps>(initialData);
 
-// プロバイダーとコンシューマーのカスタムフックを作成
-export const useData = () => useContext(StockChartDataContext);
+// データを提供するDataProviderコンポーネント
+export const DataProvider: FC<Props> = ({ children }) => {
+    // データとクエリパラメータの状態を管理
+    const [data, setData] = useState<DataItem[]>([]);
+    const [code, setCode] = useState<string>("");
 
-// データを取得して提供する親コンポーネント
-export const StockChartDataProvider: React.FC<Props> = ({ children }) => {
-    const [params, setParams] = useState<any>(null);
-    const [data, setData] = useState<StockChartData[]>([]);
+    const FetchData = useCallback((code: string) => {
+        if (code !== "") {
+            const params = {
+                code: code,
+            }
+            console.log(code);
+            
+            // 使用するAPIに応じて以下の部分を変更してください
+            // StockChartDataApi.fetchData(params)
+            //     .then(response => {
+            //         const dataSet: DataItem[] = response;
+            //         setData(dataSet);
+            //         console.log(dataSet);
+            //         console.log(data);
+            //     })
+            //     .catch(error => console.log(error));
+        }
+    }, [data]);  // この依存リストは適切なものに変更してください
 
     useEffect(() => {
-        if (params) {
-            // APIなどからデータを取得する処理
-            // 例: fetchやaxiosを使用してデータを取得し、setDataで状態更新
-            StockChartDataApi.fetchData(params)
-                .then(response => {
-                    setData(response.data);
-                })
-                .catch(error => console.log(error));
-        }
-    }, [params]);
+        FetchData(code);
+    }, [code, FetchData])
 
-    return (
-        <StockChartDataContext.Provider value={data}>
-            {/* updateParams 関数を子コンポーネントに渡す */}
-            {children}
-        </StockChartDataContext.Provider>
-    );
+    // DataContextの値として提供するコンテキスト値
+    const contextValue: DataContextProps = { data, setData, code, setCode };
+
+    // コンテキストプロバイダーを使って子コンポーネントにコンテキストを提供
+    return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
 };

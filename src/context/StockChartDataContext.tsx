@@ -6,7 +6,7 @@ type Props = {
 };
 
 // APIから取得するデータの型定義
-interface DataItem {    // データの型に合わせてプロパティを定義
+interface DataItem {
     /** ID */
     id: number;
     /** 日付 */
@@ -36,20 +36,20 @@ interface DataContextProps {
 }
 const initialData: DataContextProps = {
     data: [],
-    setData: () => {}, // Provide your initial state or logic here
+    setData: () => { },
     code: '',
-    setCode: () => '', // Provide your initial state or logic here
+    setCode: () => '',
 };
 // DataContextの作成
-export const DataContext = createContext<DataContextProps>(initialData);
+export const StockChartDataContext = createContext<DataContextProps>(initialData);
 
 // データを提供するDataProviderコンポーネント
-export const DataProvider: FC<Props> = ({ children }) => {
+export const StickChartDataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
     const [code, setCode] = useState<string>("");
 
-    const FetchData= useCallback((code: string) => {
+    const FetchData = useCallback((code: string) => {
         if (code !== "") {
             const params = {
                 code: code,
@@ -64,16 +64,16 @@ export const DataProvider: FC<Props> = ({ children }) => {
                 })
                 .catch(error => console.log(error));
         }
-    },[data]);
+    }, [data]);
 
-    useEffect(()=>{
+    useEffect(() => {
         FetchData(code);
-    },[code, FetchData])
+    }, [code, FetchData])
 
     // DataContextの値として提供するコンテキスト値
     const contextValue: DataContextProps = { data, setData, code, setCode };
 
     // コンテキストプロバイダーを使って子コンポーネントにコンテキストを提供
-    return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
+    return <StockChartDataContext.Provider value={contextValue}>{children}</StockChartDataContext.Provider>;
 };
 

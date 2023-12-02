@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { DataContext } from './context/ApiDataContext'; // このパスは実際のファイルの場所に合わせて修正してください
+import { StockChartDataContext } from './context/StockChartDataContext'; // このパスは実際のファイルの場所に合わせて修正してください
 
 export const App: React.FC = () => {
-  const { code, setCode, data } = useContext(DataContext);
+  const { code, setCode, data } = useContext(StockChartDataContext);
   const [inputCode, setInputCode] = useState('');
 
   const handleSearch = () => {
@@ -23,7 +23,7 @@ export const App: React.FC = () => {
           {/* Add your conditional content here */}
           {data.map((item, index) => (
             <div key={index}>
-              {item.date} / 
+              {item.date} /
               {item.close}
               {/* Display other properties of 'item' here as needed */}
             </div>
