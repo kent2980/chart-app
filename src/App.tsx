@@ -1,15 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { StockChartDataContext } from './context/StockChartDataContext'; // このパスは実際のファイルの場所に合わせて修正してください
+import { StockChartDataContext } from './context/StockChartDataContext'; 
 
 export const App: React.FC = () => {
-  const { code, setCode, data } = useContext(StockChartDataContext);
+  const { setCode, data } = useContext(StockChartDataContext);
   const [inputCode, setInputCode] = useState('');
 
   const handleSearch = () => {
     if (inputCode) {
       const queryParams: string = inputCode;
       setCode(queryParams);
-      console.log(code);
     }
   };
 

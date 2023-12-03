@@ -1,12 +1,12 @@
 import React, { createContext, useState, useEffect, FC, useCallback } from 'react';
-import { StockChartDataApi } from "../services/FsstockApiServies";
+import { StockChartDataApi, ExplainListApi, ExplainItemApi, StockBrandsApi } from "../services/FsstockApiServies";
 
 type Props = {
     children: React.ReactNode;
 };
 
 // APIから取得するデータの型定義
-interface DataItem {
+type DataItem = {
     /** ID */
     id: number;
     /** 日付 */
@@ -31,14 +31,18 @@ interface DataItem {
 interface DataContextProps {
     data: DataItem[];
     setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
-    code: string;
+    code: string,
     setCode: React.Dispatch<React.SetStateAction<string>>;
+    dateGte: string;
+    setDateGte: React.Dispatch<React.SetStateAction<string>>;
 }
 const initialData: DataContextProps = {
     data: [],
     setData: () => { },
-    code: '',
-    setCode: () => '',
+    code: "",
+    setCode: () => "",
+    dateGte: "",
+    setDateGte: () => "",
 };
 // DataContextの作成
 export const StockChartDataContext = createContext<DataContextProps>(initialData);
@@ -48,11 +52,12 @@ export const StickChartDataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
     const [code, setCode] = useState<string>("");
+    const [dateGte, setDateGte] = useState<string>("");
 
-    const FetchData = useCallback((code: string) => {
+    const FetchData = useCallback((code:String="") => {
         if (code !== "") {
             const params = {
-                code: code,
+                code: code
             }
             console.log(code);
             StockChartDataApi.fetchData(params)
@@ -68,10 +73,10 @@ export const StickChartDataProvider: FC<Props> = ({ children }) => {
 
     useEffect(() => {
         FetchData(code);
-    }, [code, FetchData])
+    }, [code, dateGte])
 
     // DataContextの値として提供するコンテキスト値
-    const contextValue: DataContextProps = { data, setData, code, setCode };
+    const contextValue: DataContextProps = { data, setData, code, setCode, dateGte, setDateGte };
 
     // コンテキストプロバイダーを使って子コンポーネントにコンテキストを提供
     return <StockChartDataContext.Provider value={contextValue}>{children}</StockChartDataContext.Provider>;

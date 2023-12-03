@@ -82,7 +82,13 @@ export const StockBrandsApi = {
 };
 
 export type StockChartParams = {
+    /**
+     * 銘柄コード
+     */
     code: string;
+    date_range_lte: string;
+    date_range_gte: string;
+    select_date: string;
 }
 /**
  * result APIを呼び出す関数
@@ -95,7 +101,7 @@ export const StockChartDataApi = {
      * @param params - クエリパラメータのオブジェクト
      * @returns result APIのレスポンスのデータ
      */
-    fetchData: async (params: StockChartParams): Promise<any> => {
+    fetchData: async (params: Record<string, any>): Promise<any> => {
         return await callApi('result', params);
     },
 };
