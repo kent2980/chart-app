@@ -38,7 +38,7 @@ const callApi = async (path: string, params: Record<string, any>): Promise<any> 
  * @param params - クエリパラメータのオブジェクト
  * @returns explain APIのレスポンスのデータ
  */
-export const explainApi = {
+export const ExplainListApi = {
     /**
      * fetchDataメソッド
      * @param params - クエリパラメータのオブジェクト
@@ -54,7 +54,7 @@ export const explainApi = {
  * @param params - クエリパラメータのオブジェクト
  * @returns item APIのレスポンスのデータ
  */
-export const itemApi = {
+export const ExplainItemApi = {
     /**
      * fetchDataメソッド
      * @param params - クエリパラメータのオブジェクト
@@ -70,7 +70,7 @@ export const itemApi = {
  * @param params - クエリパラメータのオブジェクト
  * @returns brands APIのレスポンスのデータ
  */
-export const brandsApi = {
+export const StockBrandsApi = {
     /**
      * fetchDataメソッド
      * @param params - クエリパラメータのオブジェクト
