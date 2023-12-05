@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { StockChartDataContext } from './context/StockChartDataContext';
+import { StockChartParams } from './services/FsstockApiServies';
 
 export const App: React.FC = () => {
   const { setParams, data } = useContext(StockChartDataContext);
@@ -7,9 +8,11 @@ export const App: React.FC = () => {
 
   const handleSearch = () => {
     if (inputCode) {
-      const queryParams: Record<string, any> = {
+      const queryParams: StockChartParams = {
         code: inputCode,
-        select_date: "2023-12-05"
+        date_range_gte:"",
+        date_range_lte:"",
+        select_date: ""
       };
       setParams(queryParams);
     }

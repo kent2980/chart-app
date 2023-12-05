@@ -21,6 +21,7 @@ const callApi = async (path: string, params: Record<string, any>): Promise<any> 
             .join('&');
 
         // APIにリクエストを送信
+        console.log(`${url}?${queryParams}`)
         const response = await axios.get(`${url}?${queryParams}`);
 
         // 必要な処理を実行
@@ -101,7 +102,7 @@ export const StockChartDataApi = {
      * @param params - クエリパラメータのオブジェクト
      * @returns result APIのレスポンスのデータ
      */
-    fetchData: async (params: Record<string, any>): Promise<any> => {
+    fetchData: async (params: StockChartParams): Promise<any> => {
         return await callApi('result', params);
     },
 };

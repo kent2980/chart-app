@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, FC, useCallback } from 'react';
-import { StockChartDataApi } from "../services/FsstockApiServies";
+import { StockChartDataApi, StockChartParams } from "../services/FsstockApiServies";
 
 type Props = {
     children: React.ReactNode;
@@ -31,15 +31,24 @@ type DataItem = {
 interface DataContextProps {
     data: DataItem[];
     setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
-    params: Record<string, any>;
-    setParams: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+    params: StockChartParams;
+    setParams: React.Dispatch<React.SetStateAction<StockChartParams>>;
 }
+
+const initialParams:StockChartParams={
+    code:"",
+    date_range_gte:"",
+    date_range_lte:"",
+    select_date:""
+}
+
 const initialData: DataContextProps = {
     data: [],
     setData: () => { },
-    params: {},
+    params: initialParams,
     setParams: () => { },
 };
+
 // DataContextの作成
 export const StockChartDataContext = createContext<DataContextProps>(initialData);
 
@@ -47,9 +56,9 @@ export const StockChartDataContext = createContext<DataContextProps>(initialData
 export const StickChartDataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
-    const [params, setParams] = useState<Record<string, any>>({});
+    const [params, setParams] = useState<StockChartParams>(initialParams);
 
-    const FetchData = useCallback((params: Record<string, any>) => {
+    const FetchData = useCallback((params: StockChartParams) => {
         StockChartDataApi.fetchData(params)
             .then(response => {
                 const dataSet: DataItem[] = response;
@@ -62,7 +71,7 @@ export const StickChartDataProvider: FC<Props> = ({ children }) => {
         if (Object.keys(params).length > 0) {
             FetchData(params);
         }
-    }, [params, FetchData])
+    }, [params,FetchData])
 
     // DataContextの値として提供するコンテキスト値
     const contextValue: DataContextProps = { data, setData, params, setParams };
