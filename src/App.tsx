@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react';
-import { StockChartDataContext } from './context/StockChartDataContext'; 
+import { StockChartDataContext } from './context/StockChartDataContext';
 
 export const App: React.FC = () => {
-  const { setCode, data } = useContext(StockChartDataContext);
+  const { setParams, data } = useContext(StockChartDataContext);
   const [inputCode, setInputCode] = useState('');
 
   const handleSearch = () => {
     if (inputCode) {
-      const queryParams: string = inputCode;
-      setCode(queryParams);
+      const queryParams: Record<string, any> = {
+        code: inputCode,
+        select_date: "2023-12-05"
+      };
+      setParams(queryParams);
     }
   };
 

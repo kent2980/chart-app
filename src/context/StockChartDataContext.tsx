@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, FC, useCallback } from 'react';
-import { StockChartDataApi, ExplainListApi, ExplainItemApi, StockBrandsApi } from "../services/FsstockApiServies";
+import { StockChartDataApi } from "../services/FsstockApiServies";
 
 type Props = {
     children: React.ReactNode;
@@ -31,18 +31,14 @@ type DataItem = {
 interface DataContextProps {
     data: DataItem[];
     setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
-    code: string,
-    setCode: React.Dispatch<React.SetStateAction<string>>;
-    dateGte: string;
-    setDateGte: React.Dispatch<React.SetStateAction<string>>;
+    params: Record<string, any>;
+    setParams: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 const initialData: DataContextProps = {
     data: [],
     setData: () => { },
-    code: "",
-    setCode: () => "",
-    dateGte: "",
-    setDateGte: () => "",
+    params: {},
+    setParams: () => { },
 };
 // DataContextの作成
 export const StockChartDataContext = createContext<DataContextProps>(initialData);
@@ -51,32 +47,25 @@ export const StockChartDataContext = createContext<DataContextProps>(initialData
 export const StickChartDataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
-    const [code, setCode] = useState<string>("");
-    const [dateGte, setDateGte] = useState<string>("");
+    const [params, setParams] = useState<Record<string, any>>({});
 
-    const FetchData = useCallback((code:String="") => {
-        if (code !== "") {
-            const params = {
-                code: code
-            }
-            console.log(code);
-            StockChartDataApi.fetchData(params)
-                .then(response => {
-                    const dataSet: DataItem[] = response;
-                    setData(dataSet);
-                    console.log(dataSet);
-                    console.log(data);
-                })
-                .catch(error => console.log(error));
-        }
-    }, [data]);
+    const FetchData = useCallback((params: Record<string, any>) => {
+        StockChartDataApi.fetchData(params)
+            .then(response => {
+                const dataSet: DataItem[] = response;
+                setData(dataSet);
+            })
+            .catch(error => console.log(error));
+    }, []);
 
     useEffect(() => {
-        FetchData(code);
-    }, [code, dateGte])
+        if (Object.keys(params).length > 0) {
+            FetchData(params);
+        }
+    }, [params, FetchData])
 
     // DataContextの値として提供するコンテキスト値
-    const contextValue: DataContextProps = { data, setData, code, setCode, dateGte, setDateGte };
+    const contextValue: DataContextProps = { data, setData, params, setParams };
 
     // コンテキストプロバイダーを使って子コンポーネントにコンテキストを提供
     return <StockChartDataContext.Provider value={contextValue}>{children}</StockChartDataContext.Provider>;
