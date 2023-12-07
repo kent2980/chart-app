@@ -35,17 +35,10 @@ interface DataContextProps {
     setParams: React.Dispatch<React.SetStateAction<StockChartParams>>;
 }
 
-const initialParams:StockChartParams={
-    code:"",
-    date_range_gte:"",
-    date_range_lte:"",
-    select_date:""
-}
-
 const initialData: DataContextProps = {
     data: [],
     setData: () => { },
-    params: initialParams,
+    params: new StockChartParams(),
     setParams: () => { },
 };
 
@@ -56,10 +49,10 @@ export const StockChartDataContext = createContext<DataContextProps>(initialData
 export const StickChartDataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
-    const [params, setParams] = useState<StockChartParams>(initialParams);
+    const [params, setParams] = useState<StockChartParams>(new StockChartParams());
 
     const FetchData = useCallback((params: StockChartParams) => {
-        StockChartDataApi.fetchData(params)
+        StockChartDataApi.fetchData(params.Record)
             .then(response => {
                 const dataSet: DataItem[] = response;
                 setData(dataSet);
@@ -68,10 +61,12 @@ export const StickChartDataProvider: FC<Props> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (Object.keys(params).length > 0) {
+        if (!params.equals(new StockChartParams())) {
             FetchData(params);
+        } else {
+            console.log("equals");
         }
-    }, [params,FetchData])
+    }, [params, FetchData])
 
     // DataContextの値として提供するコンテキスト値
     const contextValue: DataContextProps = { data, setData, params, setParams };
