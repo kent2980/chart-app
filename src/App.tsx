@@ -8,12 +8,8 @@ export const App: React.FC = () => {
 
   const handleSearch = () => {
     if (inputCode) {
-      const queryParams: StockChartParams = {
-        code: inputCode,
-        date_range_gte:"",
-        date_range_lte:"",
-        select_date: ""
-      };
+      const queryParams = new StockChartParams();
+      queryParams.code = inputCode
       setParams(queryParams);
     }
   };
