@@ -91,6 +91,14 @@ export type StockChartParams = {
     date_range_gte: string;
     select_date: string;
 }
+export class StockChartParamsC {
+    constructor(
+        public code: string = "",
+        public date_range_lte: string = "",
+        public date_range_gte: string = "",
+        public select_date: string = ""
+    ) {}
+}
 /**
  * result APIを呼び出す関数
  * @param params - クエリパラメータのオブジェクト
