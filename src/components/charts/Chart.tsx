@@ -2,7 +2,7 @@ import * as echarts from 'echarts';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { useChartRef } from '../hooks/useChartRef';
+import { useChartRef } from '../../hooks/useChartRef';
 
 interface IStyleProps {
     height: `${string}px`
@@ -14,7 +14,7 @@ const StyledWrapper = styled.div<IStyleProps>`
     text-align: center;
 `;
 
-export interface IChartProps {
+interface IChartProps {
     height: `${string}px`
     option?: echarts.EChartOption
     className?: string
@@ -31,11 +31,11 @@ const Chart: React.FunctionComponent<IChartProps> = React.memo(({
         if (chartIsReady() && option) {
             setChartOption(option);
         }
-    }, [ option ]);
+    }, [option]);
 
     return (
-        <StyledWrapper height={ height } className={ className }>
-            <div ref={ chartRef } style={ { height } }></div>
+        <StyledWrapper height={height} className={className}>
+            <div ref={chartRef} style={{ height }}></div>
         </StyledWrapper>
     );
 });

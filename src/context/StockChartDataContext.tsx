@@ -46,7 +46,7 @@ const initialData: DataContextProps = {
 export const StockChartDataContext = createContext<DataContextProps>(initialData);
 
 // データを提供するDataProviderコンポーネント
-export const StickChartDataProvider: FC<Props> = ({ children }) => {
+export const StockChartDataProvider: FC<Props> = ({ children }) => {
     // データとクエリパラメータの状態を管理
     const [data, setData] = useState<DataItem[]>([]);
     const [params, setParams] = useState<StockChartParams>(new StockChartParams());

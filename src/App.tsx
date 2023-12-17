@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { StockChartDataContext } from './context/StockChartDataContext';
 import { StockChartParams } from './services/FsstockApiServies';
-import Chart from "./components/Chart";
-import { EChartOption } from "echarts";
+import StockChart from './components/charts/StockChart';
 
 export const App: React.FC = () => {
   const { setParams, data } = useContext(StockChartDataContext);
@@ -12,30 +11,17 @@ export const App: React.FC = () => {
     if (inputCode) {
       const queryParams = new StockChartParams();
       queryParams.code = inputCode
+      queryParams.ordering = "date"
+      queryParams.date_range_gte = "2023-10-01"
       setParams(queryParams);
     }
   };
 
-  const option:EChartOption = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [
-      {
-        data: [150, 230, 224, 218, 135, 147, 260],
-        type: 'line'
-      }
-    ]
-  };
 
   return (
     <div>
       <header>
-        <Chart height='200px'option={option}/>
+        <StockChart/>
       </header>
       <input type="text" value={inputCode} onChange={(e) => setInputCode(e.target.value)} />
       <button onClick={handleSearch}>検索</button>

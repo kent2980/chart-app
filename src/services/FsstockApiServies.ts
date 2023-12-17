@@ -379,6 +379,11 @@ interface StockChartParamsInterface {
     date_range_lte: string;
     date_range_gte: string;
     select_date: string;
+    /**
+     * ソート順
+     * @type {string}
+     */
+    ordering: string;
 }
 
 /**
@@ -405,6 +410,8 @@ export class StockChartParams implements StockChartParamsInterface {
      */
     select_date: string = "";
 
+    ordering: string = "";
+
     /**
      * パラメータオブジェクトを取得
      * @type {StockChartParamsInterface}
@@ -415,6 +422,7 @@ export class StockChartParams implements StockChartParamsInterface {
             date_range_gte: this.date_range_gte,
             date_range_lte: this.date_range_lte,
             select_date: this.select_date,
+            ordering:this.ordering
         };
     }
 

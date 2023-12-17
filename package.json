@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@types/echarts": "^4.9.22"
+    "@types/echarts": "^4.9.22",
+    "eslint": "^8.56.0"
   }
 }
