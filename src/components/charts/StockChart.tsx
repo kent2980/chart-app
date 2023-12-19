@@ -19,12 +19,13 @@ const StockChart = () => {
     })
 
     const option: EChartOption = {
+        animation:true,
         xAxis: {
             data: dateOnly,
         },
         yAxis: {
             min:function(value){
-                return value.min - 500
+                    return value.min - (value.min/20);
             }
         },
         series: [
