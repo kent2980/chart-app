@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import { StockChartDataContext } from './context/StockChartDataContext';
 import { StockChartParams } from './services/FsstockApiServies';
 import StockChart from './components/charts/StockChart';
+import CompanyHead from './components/contents/CompanyHead';
 
 export const App: React.FC = () => {
   const { setParams, data } = useContext(StockChartDataContext);
   const [inputCode, setInputCode] = useState('');
+  const [code, setCode] = useState('');
 
   const handleSearch = () => {
     if (inputCode) {
@@ -14,6 +16,7 @@ export const App: React.FC = () => {
       queryParams.ordering = "date"
       queryParams.date_range_gte = "2023-10-01"
       setParams(queryParams);
+      setCode(inputCode);
     }
   };
 
@@ -21,8 +24,11 @@ export const App: React.FC = () => {
   return (
     <div>
       <header>
-        <StockChart/>
+        <CompanyHead code={code} />
       </header>
+      <div>
+        <StockChart />
+      </div>
       <input type="text" value={inputCode} onChange={(e) => setInputCode(e.target.value)} />
       <button onClick={handleSearch}>検索</button>
       {data && data.length > 0 && (
