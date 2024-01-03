@@ -74,4 +74,3 @@ export const StockChartDataProvider: FC<Props> = ({ children }) => {
     // コンテキストプロバイダーを使って子コンポーネントにコンテキストを提供
     return <StockChartDataContext.Provider value={contextValue}>{children}</StockChartDataContext.Provider>;
 };
-
