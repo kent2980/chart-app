@@ -5,6 +5,7 @@ import { App } from "./App"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
 import { StockChartDataProvider } from "./context/StockChartDataContext";
+import { BrowserRouter } from "react-router-dom"
 
 const container = document.getElementById("root")
 if (!container) throw new Error('Failed to find the root element');
@@ -12,10 +13,12 @@ const root = ReactDOM.createRoot(container)
 
 root.render(
   <React.StrictMode>
-    <ColorModeScript />
-    <StockChartDataProvider>
-      <App />
-    </StockChartDataProvider>
+    <BrowserRouter>
+      <ColorModeScript />
+      <StockChartDataProvider>
+        <App />
+      </StockChartDataProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 )
 
