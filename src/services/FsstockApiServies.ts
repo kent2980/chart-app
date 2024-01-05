@@ -178,6 +178,26 @@ export const ExplainListApi = {
     },
 };
 
+export type ExplainListDataItem = {
+    index_id:number;
+    id:string;
+    filing_date:string;
+    publication_date:string;
+    code:string;
+    document_title:string;
+    period:number;
+    period_division:string;
+    period_division_label:string;
+    consolidation_cat:string;
+    consolidation_cat_label:string;
+    report_cat:string;
+    report_label:string;
+    company_name:string;
+    start_date:string;
+    end_date:string;
+    period_year:string;
+}
+
 interface ExplainItemParamsInterface {
     calLinkFromElement: string;
     calLinkNull: string;
