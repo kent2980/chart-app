@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Heading, Input, VStack } from '@chakra-ui/react';
 import StockSummaryList from '../components/list/StockSummaryList';
-import StockChart from '../components/charts/StockChart';
 
 type Props = {}
 
