@@ -1,11 +1,33 @@
 import Chart from "./Chart";
 import { EChartOption } from "echarts";
-import React, { useContext } from 'react'
-import { StockChartDataContext } from "../../context/StockChartDataContext";
+import React, { useEffect, useState } from 'react'
+import { StockChartDataApi, StockChartDataItem, StockChartParams } from "../../services/FsstockApiServies";
 
-const StockChart = () => {
+type Props = {
+    code:string;
+}
 
-    const { data } = useContext(StockChartDataContext);
+const StockChart = (props:Props) => {
+
+    const { code } = props;
+    const [data, setData] = useState<StockChartDataItem[]>([]);
+
+    useEffect(() => {
+        if(code !== "" && code.length === 4){
+            const list = new StockChartParams();
+            list.code = code;
+            StockChartDataApi.fetchData(list)
+            .then(res => {
+                setData(res);
+                console.log(list);
+                console.log(data);
+            })
+            .catch(er => console.log(er));
+        }else{
+            setData([]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[code]);
 
     const dateOnly:string[] = data.map(item => item.date);
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Heading, Input, VStack } from '@chakra-ui/react';
 import StockSummaryList from '../components/list/StockSummaryList';
+import StockChart from '../components/charts/StockChart';
 
 type Props = {}
 
@@ -27,6 +28,9 @@ const View = (props: Props) => {
                     value={input}
                     onChange={handleInputChange} // Binding the input value to the state and handling input changes
                 />
+            </Box>
+            <Box>
+                {/* <StockChart code={input}/> */}
             </Box>
             <Box width={'100%'}>
                 <StockSummaryList code={input}/>

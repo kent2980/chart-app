@@ -477,3 +477,24 @@ export const StockChartDataApi = {
         return await callApi('result', params);
     },
 };
+
+export type StockChartDataItem = {
+    /** ID */
+    id: number;
+    /** 日付 */
+    date: string;
+    /** 銘柄コード */
+    code: string;
+    /**始値 */
+    open: number;
+    /**高値 */
+    high: number;
+    /**安値 */
+    low: number;
+    /**終値 */
+    close: number;
+    /**調整後終値 */
+    adj_close: number;
+    /** 出来高情報 */
+    volume: number;
+}
