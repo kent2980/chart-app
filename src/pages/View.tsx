@@ -1,33 +1,37 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import StockSummary from '../components/tables/StockSummary';
-import { Box, Input } from '@chakra-ui/react';
+import { Box, Heading, Input, VStack } from '@chakra-ui/react';
+import StockSummaryList from '../components/list/StockSummaryList';
 
 type Props = {}
 
 const View = (props: Props) => {
     const [input, setInput] = useState(""); // Initializing input state
 
-    const handleInputChange = (event:any) => {
+    const handleInputChange = (event: any) => {
         setInput(event.target.value); // Updating the input state with the entered value
     };
 
     return (
-        <Box>
-            <Box>
-                <h2>View</h2>
-                <Link to={'/'}>もどる</Link>
+        <VStack
+            spacing={6}>
+            <Box marginTop={6} marginX={'auto'}>
+                <Heading as='h5' size='md'>
+                    Stock Code:{input ? input : "----"}
+                </Heading>
             </Box>
-            <Box>
-                <Input 
-                    placeholder='銘柄コード' 
-                    size='md' 
-                    value={input} 
+            <Box margin={'auto'}>
+                <Input
+                    textAlign={'center'}
+                    placeholder='Stock Code'
+                    size='md'
+                    value={input}
                     onChange={handleInputChange} // Binding the input value to the state and handling input changes
                 />
-                <StockSummary code={input}/>
             </Box>
-        </Box>
+            <Box width={'100%'}>
+                <StockSummaryList code={input}/>
+            </Box>
+        </VStack>
     )
 }
 

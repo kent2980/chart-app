@@ -3,7 +3,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -21,17 +20,21 @@ const StockSummary = (props: Props) => {
   const [data, setData] = useState<ExplainListDataItem[]>([]);
 
   useEffect(() => {
-    if (code !== "") {
+    if (code !== "" && code.length === 4) {
       const list = new ExplainList();
       list.code = code;
       ExplainListApi.fetchData(list)
         .then(res => {
-          setData(res); // Replacing data with the fetched result directly
-          console.log(data); // This will not log the updated data due to closure
+          setData(res);
+          console.log(data);
         })
         .catch(error => console.log(error));
     }
-  }, [code]); // Removed "data" from the dependency array as it causes unnecessary re-renders
+    else{
+      setData([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code]);
 
   return (
     <Box
@@ -39,10 +42,10 @@ const StockSummary = (props: Props) => {
       border='1px'
       borderColor='gray.300'
       padding='0.75rem'
-      margin='1.25rem'
+      margin='auto'
     >
       <TableContainer>
-        <Table size='sm'>
+        <Table size='sm' overflowX={'scroll'}>
           <Thead>
             <Tr>
               <Th>日付</Th>

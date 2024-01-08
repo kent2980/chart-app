@@ -1,14 +1,25 @@
-import React from 'react'
+import { Button, Stack } from '@chakra-ui/react';
+import { RiStockFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
 type Props = {}
 
 const Home = (props: Props) => {
   return (
-    <div>
-      <h1>プレスト presto</h1>
-      <Link to={'/view'}>view</Link>
-    </div>
+    <Stack direction={'column'} spacing={10}>
+      <Stack direction={'column'} spacing={5} margin={'auto'}>
+        <Link to={'/view'}>
+          <Button
+            colorScheme='pink'
+            variant='solid'
+            w={'150px'}
+            h={12}
+            leftIcon={<RiStockFill />}>
+            Stock Data
+          </Button>
+        </Link>
+      </Stack>
+    </Stack >
   )
 }
 

@@ -31,6 +31,7 @@ const Chart: React.FunctionComponent<IChartProps> = React.memo(({
         if (chartIsReady() && option) {
             setChartOption(option);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps    
     }, [option]);
 
     return (
